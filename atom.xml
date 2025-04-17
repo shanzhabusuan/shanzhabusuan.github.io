@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://github.com/shanzhabusuan/shanzhabusuan.github.io</id>
+    <id>https://shanzhabusuan.github.io</id>
     <title>山楂不酸的个人博客</title>
-    <updated>2025-04-17T00:57:24.785Z</updated>
+    <updated>2025-04-17T03:56:40.870Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="https://github.com/shanzhabusuan/shanzhabusuan.github.io"/>
-    <link rel="self" href="https://github.com/shanzhabusuan/shanzhabusuan.github.io/atom.xml"/>
+    <link rel="alternate" href="https://shanzhabusuan.github.io"/>
+    <link rel="self" href="https://shanzhabusuan.github.io/atom.xml"/>
     <subtitle>东风夜放花千树。更吹落、星如雨。</subtitle>
-    <logo>https://github.com/shanzhabusuan/shanzhabusuan.github.io/images/avatar.png</logo>
-    <icon>https://github.com/shanzhabusuan/shanzhabusuan.github.io/favicon.ico</icon>
+    <logo>https://shanzhabusuan.github.io/images/avatar.png</logo>
+    <icon>https://shanzhabusuan.github.io/favicon.ico</icon>
     <rights>All rights reserved 2025, 山楂不酸的个人博客</rights>
     <entry>
         <title type="html"><![CDATA[记一次博客搭建的过程]]></title>
-        <id>https://github.com/shanzhabusuan/shanzhabusuan.github.io/post/ji-yi-ci-bo-ke-da-jian-de-guo-cheng/</id>
-        <link href="https://github.com/shanzhabusuan/shanzhabusuan.github.io/post/ji-yi-ci-bo-ke-da-jian-de-guo-cheng/">
+        <id>https://shanzhabusuan.github.io/post/ji-yi-ci-bo-ke-da-jian-de-guo-cheng/</id>
+        <link href="https://shanzhabusuan.github.io/post/ji-yi-ci-bo-ke-da-jian-de-guo-cheng/">
         </link>
         <updated>2025-04-16T03:14:38.000Z</updated>
         <content type="html"><![CDATA[<p>✅ 一、准备工作</p>
