@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://github.com/shanzhabusuan/shanzhabusuan.github.io</id>
+    <title>山楂不酸的个人博客</title>
+    <updated>2025-04-17T00:46:35.383Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://github.com/shanzhabusuan/shanzhabusuan.github.io"/>
+    <link rel="self" href="https://github.com/shanzhabusuan/shanzhabusuan.github.io/atom.xml"/>
+    <subtitle>东风夜放花千树。更吹落、星如雨。</subtitle>
+    <logo>https://github.com/shanzhabusuan/shanzhabusuan.github.io/images/avatar.png</logo>
+    <icon>https://github.com/shanzhabusuan/shanzhabusuan.github.io/favicon.ico</icon>
+    <rights>All rights reserved 2025, 山楂不酸的个人博客</rights>
+    <entry>
+        <title type="html"><![CDATA[记一次博客搭建的过程]]></title>
+        <id>https://github.com/shanzhabusuan/shanzhabusuan.github.io/post/ji-yi-ci-bo-ke-da-jian-de-guo-cheng/</id>
+        <link href="https://github.com/shanzhabusuan/shanzhabusuan.github.io/post/ji-yi-ci-bo-ke-da-jian-de-guo-cheng/">
+        </link>
+        <updated>2025-04-16T03:14:38.000Z</updated>
+        <content type="html"><![CDATA[<p>✅ 一、准备工作</p>
+<ol>
+<li>下载 Gridea 客户端<br>
+官网地址：https://gridea.dev/</li>
+</ol>
+<p>Windows、macOS 都支持，下载后直接安装即可。</p>
+<ol start="2">
+<li>准备 GitHub 账号（部署用）<br>
+如果你没有：</li>
+</ol>
+<p>注册一个 GitHub 账号：https://github.com</p>
+<p>创建一个新仓库，命名为：yourname.github.io（必须这样命名）</p>
+<p>🧰 二、配置博客发布<br>
+第一次打开 Gridea 后：<br>
+点击“设置”</p>
+<p>设置站点名称、简介、作者名</p>
+<p>选择你喜欢的主题（默认主题已经很美观）</p>
+<p>点击“远程”配置</p>
+<p>发布方式：选择 GitHub Pages</p>
+<p>填写内容如下：</p>
+<p>项目	示例<br>
+仓库地址	https://github.com/你的用户名/你的仓库名.git<br>
+分支	main 或 gh-pages（默认通常是 main）<br>
+用户名	你的 GitHub 用户名<br>
+邮箱	你的 GitHub 邮箱<br>
+Token（令牌）	GitHub 生成的 Personal Access Token<br>
+如何生成 GitHub Token：<br>
+登录 GitHub → 右上角头像 → Settings</p>
+<p>选择 Developer settings → Personal access tokens</p>
+<p>点击 Generate new token (classic)，勾选：</p>
+<p>repo（仓库权限）</p>
+<p>workflow（部署权限）</p>
+<p>复制 Token，填到 Gridea 中</p>
+<p>📝 三、写文章 &amp; 发布<br>
+点击左侧“文章” → “新建文章”</p>
+<p>支持 Markdown 格式</p>
+<p>可以添加分类、标签、封面图</p>
+<p>保存后点击“同步”，Gridea 会自动打包并上传到 GitHub</p>
+<p>几分钟后，就可以访问你的博客：</p>
+<p>访问地址是：https://你的用户名.github.io</p>
+<p>🎨 四、换主题（可选）<br>
+官方主题仓库：https://github.com/gridea-theme</p>
+<p>推荐主题：</p>
+<p>Notes：极简风</p>
+<p>Pure：干净好看，适合日记风格</p>
+<p>Matrix：支持文章封面图，适合技术博客</p>
+<p>下载 .zip 文件后，在 Gridea 设置中“主题管理”→“导入主题”即可使用。</p>
+<p>🔒 五、安全建<br>
+虽然 Gridea 是静态博客，不涉及后台，但可以：</p>
+<p>给 GitHub 仓库设为私有（如用于备份）</p>
+<p>启用 2FA 双因素认证</p>
+<p>定期备份 Gridea 的本地数据夹（文章都保存在本地）</p>
+]]></content>
+    </entry>
+</feed>
