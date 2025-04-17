@@ -2,11 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://shanzhabusuan.github.io</id>
     <title>山楂不酸的个人博客</title>
-    <updated>2025-04-17T07:02:51.073Z</updated>
+    <updated>2025-04-17T09:59:04.979Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://shanzhabusuan.github.io"/>
     <link rel="self" href="https://shanzhabusuan.github.io/atom.xml"/>
-    <subtitle>东风夜放花千树。更吹落、星如雨。</subtitle>
+    <subtitle>&lt;style&gt;
+    .site-title {
+        color: #FFA500; /* 橘黄色 */
+        font-family: &apos;YouYuan&apos;, sans-serif; /* 使用幼圆字体 */
+        font-size: 24px; /* 字体大小调大 */
+    }
+&lt;/style&gt;
+东风夜放花千树。更吹落、星如雨。</subtitle>
     <logo>https://shanzhabusuan.github.io/images/avatar.png</logo>
     <icon>https://shanzhabusuan.github.io/favicon.ico</icon>
     <rights>All rights reserved 2025, 山楂不酸的个人博客</rights>
@@ -16,7 +23,8 @@
         <link href="https://shanzhabusuan.github.io/post/ji-yi-ci-bo-ke-da-jian-de-guo-cheng/">
         </link>
         <updated>2025-04-16T03:14:38.000Z</updated>
-        <content type="html"><![CDATA[<p>✅ 一、准备工作</p>
+        <content type="html"><![CDATA[<p><img src="https://shanzhabusuan.github.io/post-images/1744877112611.png" alt="" loading="lazy"><br>
+✅ 一、准备工作</p>
 <ol>
 <li>下载 Gridea 客户端<br>
 官网地址：https://gridea.dev/</li>
