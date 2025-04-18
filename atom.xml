@@ -2,80 +2,129 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://shanzhabusuan.github.io</id>
     <title>山楂不酸的个人博客</title>
-    <updated>2025-04-17T09:59:04.979Z</updated>
+    <updated>2025-04-18T02:41:41.808Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://shanzhabusuan.github.io"/>
     <link rel="self" href="https://shanzhabusuan.github.io/atom.xml"/>
-    <subtitle>&lt;style&gt;
-    .site-title {
-        color: #FFA500; /* 橘黄色 */
-        font-family: &apos;YouYuan&apos;, sans-serif; /* 使用幼圆字体 */
-        font-size: 24px; /* 字体大小调大 */
-    }
-&lt;/style&gt;
-东风夜放花千树。更吹落、星如雨。</subtitle>
+    <subtitle>东风夜放花千树。更吹落、星如雨。
+&lt;style&gt;
+    .site-description {
+        color: #FFA500 !important; /* 橘黄色 */
+        font-family: &apos;YouYuan&apos;, sans-serif !important; /* 使用幼圆字体 */
+        font-size: 24px !important; /* 字体大小调大 */
+      }
+&lt;/style&gt;</subtitle>
     <logo>https://shanzhabusuan.github.io/images/avatar.png</logo>
     <icon>https://shanzhabusuan.github.io/favicon.ico</icon>
     <rights>All rights reserved 2025, 山楂不酸的个人博客</rights>
+    <entry>
+        <title type="html"><![CDATA[记一次应急响应]]></title>
+        <id>https://shanzhabusuan.github.io/post/ji-yi-ci-ying-ji-xiang-ying/</id>
+        <link href="https://shanzhabusuan.github.io/post/ji-yi-ci-ying-ji-xiang-ying/">
+        </link>
+        <updated>2025-04-18T02:09:10.000Z</updated>
+        <content type="html"><![CDATA[<p>##2024.09.05</p>
+<pre><code>提要：
+</code></pre>
+<p>一台windows电脑出现被远控，使用电脑向OA系统及微信好友传播木马远控文件。在确认现场信息后，即对该终端进行分析，了解该事件的情况。</p>
+<pre><code>一、Windows日志分析：                    
+</code></pre>
+<p>通过对Windows安全日志进行分析，未发现ID为4625的登录失败日志，未发现存在ID为4624 登录类型为10的安全日志，可以排查该设备是由于暴力RDP用户名和密码，从而远程登录设备导致的安全事件。</p>
+<pre><code>二、系统进程分析：
+</code></pre>
+<p>对Windows系统的网络连接进行分析，通过netstat -ano命令对系统网络连接情况进行分析，发现存在60251端口反向连接47.76.225.189的5555端口：<br>
+<img src="https://shanzhabusuan.github.io/post-images/1744942552612.png" alt="" loading="lazy"></p>
+<p>通过netstat | finstr 60251 对端口进行查找，发现该端口对应的系统进程explorer.exe：<br>
+<img src="https://shanzhabusuan.github.io/post-images/1744942664128.png" alt="" loading="lazy"></p>
+<p>通过进程分析工具查看系统进程explorer.exe，发现该进程下存在名为OneDrive的可疑进程：<br>
+<img src="https://shanzhabusuan.github.io/post-images/1744942710380.png" alt="" loading="lazy"></p>
+<p>通过进程确认到该程序的存放路径为：C:\Users\think\AppData\Local存在隐藏文件夹OneDrive，并在该文件夹下存在多个隐藏文件，如图所示：<br>
+<img src="https://shanzhabusuan.github.io/post-images/1744942741751.png" alt="" loading="lazy"></p>
+<p>OneDrive为Windows云存储程序，通过对C:\Users\think\AppData\Local\OneDrive中的OneDrive的属性进行查看，发现该程序名称和签名存在问题，可以判定该程序为异常程序。<br>
+<img src="https://shanzhabusuan.github.io/post-images/1744942797211.png" alt="" loading="lazy"></p>
+<pre><code>三、异常程序分析
+</code></pre>
+<p>1.会生成6008.exe、explorer.exe等程序，6008.exe会生成图片bb.jpg，explorer.exe程序会连接IP：47.76.255.189。结合上述分析，该终端在C:\Users\think\AppData\Local\OneDrive\cache路径下会生成bb.jpg、OneDrive等程序，同时也外联47.76.255.189的5555端口，可以判定该异常文件为银狐病毒的伪造文件，目的是传播银狐病毒，扩大肉鸡数量。<br>
+<img src="https://shanzhabusuan.github.io/post-images/1744942979887.png" alt="" loading="lazy"></p>
+<p>2.通过沙箱得知explorer.exe程序会连接6008.baidu.787.com，该地址为银狐远控地址，IP：47.76.255.18也同样为银狐的远控地址：<br>
+<img src="https://shanzhabusuan.github.io/post-images/1744943144030.png" alt="" loading="lazy"></p>
+<pre><code>四、文件分析
+</code></pre>
+<p>通过对OneOrive.exe详细属性查询，发现OneOrive.exe最初创建时间可以追溯到2024年8月8日。通过对异常文件9月份.7z中的程序进行分析，发现异常程序的运行时间即属性中的创建时间，该时间信息不会被修改。<br>
+<img src="https://shanzhabusuan.github.io/post-images/1744943226622.png" alt="" loading="lazy"></p>
+<p>对其他文件进行分析，发现存在8月8号.lnk的快捷方式文件，改文件的存储路径为微信，原始文件已删除，同时也伴随着bb.jpg的文件生成。可以判定8月8号文件为原始病毒，该终端于2024/8/8感染病毒，方式是通过微信文件传染，于2024年9月4日被远控，导致事件发生。<br>
+<img src="https://shanzhabusuan.github.io/post-images/1744943260696.png" alt="" loading="lazy"></p>
+<pre><code>五、事件处理
+</code></pre>
+<p>首先进行网络隔离，断开网线，避免受影响范围扩大，其次对受害终端进行病毒查杀，结束该病毒的相关进程，清理C:\Users\think\AppData\Local\OneDrive\cache路径下的相关文件，然后重启电脑，完成病毒清理工作。并对病毒样本进行取证留存，用于事件复盘，总结事件经验，避免后续再次发生。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[记一次博客搭建的过程]]></title>
         <id>https://shanzhabusuan.github.io/post/ji-yi-ci-bo-ke-da-jian-de-guo-cheng/</id>
         <link href="https://shanzhabusuan.github.io/post/ji-yi-ci-bo-ke-da-jian-de-guo-cheng/">
         </link>
         <updated>2025-04-16T03:14:38.000Z</updated>
-        <content type="html"><![CDATA[<p><img src="https://shanzhabusuan.github.io/post-images/1744877112611.png" alt="" loading="lazy"><br>
-✅ 一、准备工作</p>
-<ol>
-<li>下载 Gridea 客户端<br>
-官网地址：https://gridea.dev/</li>
-</ol>
-<p>Windows、macOS 都支持，下载后直接安装即可。</p>
-<ol start="2">
-<li>准备 GitHub 账号（部署用）<br>
-如果你没有：</li>
-</ol>
-<p>注册一个 GitHub 账号：https://github.com</p>
-<p>创建一个新仓库，命名为：yourname.github.io（必须这样命名）</p>
-<p>🧰 二、配置博客发布<br>
-第一次打开 Gridea 后：<br>
-点击“设置”</p>
-<p>设置站点名称、简介、作者名</p>
-<p>选择你喜欢的主题（默认主题已经很美观）</p>
-<p>点击“远程”配置</p>
-<p>发布方式：选择 GitHub Pages</p>
-<p>填写内容如下：</p>
-<p>项目	示例<br>
-仓库地址	https://github.com/你的用户名/你的仓库名.git<br>
-分支	main 或 gh-pages（默认通常是 main）<br>
-用户名	你的 GitHub 用户名<br>
-邮箱	你的 GitHub 邮箱<br>
-Token（令牌）	GitHub 生成的 Personal Access Token<br>
-如何生成 GitHub Token：<br>
-登录 GitHub → 右上角头像 → Settings</p>
-<p>选择 Developer settings → Personal access tokens</p>
-<p>点击 Generate new token (classic)，勾选：</p>
-<p>repo（仓库权限）</p>
-<p>workflow（部署权限）</p>
-<p>复制 Token，填到 Gridea 中</p>
-<p>📝 三、写文章 &amp; 发布<br>
-点击左侧“文章” → “新建文章”</p>
-<p>支持 Markdown 格式</p>
-<p>可以添加分类、标签、封面图</p>
-<p>保存后点击“同步”，Gridea 会自动打包并上传到 GitHub</p>
-<p>几分钟后，就可以访问你的博客：</p>
-<p>访问地址是：https://你的用户名.github.io</p>
-<p>🎨 四、换主题（可选）<br>
-官方主题仓库：https://github.com/gridea-theme</p>
-<p>推荐主题：</p>
-<p>Notes：极简风</p>
-<p>Pure：干净好看，适合日记风格</p>
-<p>Matrix：支持文章封面图，适合技术博客</p>
-<p>下载 .zip 文件后，在 Gridea 设置中“主题管理”→“导入主题”即可使用。</p>
-<p>🔒 五、安全建<br>
-虽然 Gridea 是静态博客，不涉及后台，但可以：</p>
-<p>给 GitHub 仓库设为私有（如用于备份）</p>
-<p>启用 2FA 双因素认证</p>
-<p>定期备份 Gridea 的本地数据夹（文章都保存在本地）</p>
+        <content type="html"><![CDATA[<p>✅ 一、准备工作</p>
+<pre><code>下载 Gridea 客户端
+     官网地址：https://gridea.dev/
+     Windows、macOS 都支持，下载后直接安装即可。
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://shanzhabusuan.github.io/post-images/1744939379407.png" alt="" loading="lazy"></figure>
+<pre><code>准备 GitHub 账号（部署用）
+     如果你没有：
+     注册一个 GitHub 账号：https://github.com
+     创建一个新仓库，命名为：yourname.github.io（必须这样命名）
+</code></pre>
+<p>🧰 二、配置博客发布</p>
+<pre><code>第一次打开 Gridea 后：
+      点击“设置”
+      设置站点名称、简介、作者名
+      选择你喜欢的主题（默认主题已经很美观）
+      点击“远程”配置
+      发布方式：选择 GitHub Pages
+</code></pre>
+<figure data-type="image" tabindex="2"><img src="https://shanzhabusuan.github.io/post-images/1744939574958.png" alt="" loading="lazy"></figure>
+<pre><code>填写内容如下：
+      项目	示例
+      仓库地址	https://github.com/你的用户名/你的仓库名.git
+      分支	main 或 gh-pages（默认通常是 main）
+      用户名	你的 GitHub 用户名
+      邮箱	你的 GitHub 邮箱
+      Token（令牌）	GitHub 生成的 Personal Access Token
+
+如何生成 GitHub Token：
+      登录 GitHub → 右上角头像 → Settings
+      选择 Developer settings → Personal access tokens
+      点击 Generate new token (classic)，勾选：
+      repo（仓库权限）
+      workflow（部署权限）
+      复制 Token，填到 Gridea 中
+
+      ![](https://shanzhabusuan.github.io/post-images/1744940083251.png)
+</code></pre>
+<p>📝 三、写文章 &amp; 发布</p>
+<pre><code>点击左侧“文章” → “新建文章”
+     支持 Markdown 格式
+     可以添加分类、标签、封面图
+     保存后点击“同步”，Gridea 会自动打包并上传到 GitHub
+     几分钟后，就可以访问你的博客：
+     访问地址是：https://你的用户名.github.io
+</code></pre>
+<p>🎨 四、换主题（可选）</p>
+<pre><code>官方主题仓库：https://github.com/gridea-theme
+推荐主题：
+     Notes：极简风
+     Pure：干净好看，适合日记风格
+     Matrix：支持文章封面图，适合技术博客
+     下载 .zip 文件后，在 Gridea 设置中“主题管理”→“导入主题”即可使用。
+</code></pre>
+<p>🔒 五、安全建议</p>
+<pre><code>虽然 Gridea 是静态博客，不涉及后台，但可以：
+给 GitHub 仓库设为私有（如用于备份）
+启用 2FA 双因素认证
+定期备份 Gridea 的本地数据夹（文章都保存在本地）
+</code></pre>
 ]]></content>
     </entry>
 </feed>

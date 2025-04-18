@@ -1,0 +1,227 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>记一次应急响应 | 山楂不酸的个人博客</title>
+<link rel="shortcut icon" href="https://shanzhabusuan.github.io/favicon.ico?v=1744944097096">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://shanzhabusuan.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="记一次应急响应 | 山楂不酸的个人博客 - Atom Feed" href="https://shanzhabusuan.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="##2024.09.05
+提要：
+
+一台windows电脑出现被远控，使用电脑向OA系统及微信好友传播木马远控文件。在确认现场信息后，即对该终端进行分析，了解该事件的情况。
+一、Windows日志分析：                   ..." />
+    <meta name="keywords" content="应急" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://shanzhabusuan.github.io">
+  <img class="avatar" src="https://shanzhabusuan.github.io/images/avatar.png?v=1744944097096" alt="">
+  </a>
+  <h1 class="site-title">
+    山楂不酸的个人博客
+  </h1>
+  <p class="site-description">
+    东风夜放花千树。更吹落、星如雨。
+<style>
+    .site-description {
+        color: #FFA500 !important; /* 橘黄色 */
+        font-family: 'YouYuan', sans-serif !important; /* 使用幼圆字体 */
+        font-size: 24px !important; /* 字体大小调大 */
+      }
+</style>
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+      
+        <a href="https://shanzhabusuan.github.io/post/sui-bi" class="menu">
+          随笔
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/dashboard" target="_blank">
+          <i class="ri-github-line"></i>
+        </a>
+      
+    
+      
+    
+      
+        <a href="https://weibo.com/u/7080327328" target="_blank">
+          <i class="ri-weibo-line"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.zhihu.com/people/meng-jin-shou-wang" target="_blank">
+          <i class="ri-zhihu-line"></i>
+        </a>
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              记一次应急响应
+            </h2>
+            <div class="post-info">
+              <span>
+                2025-04-18
+              </span>
+              <span>
+                3 min read
+              </span>
+              
+                <a href="https://shanzhabusuan.github.io/tag/_7fUiYQ-lx/" class="post-tag">
+                  # 应急
+                </a>
+              
+            </div>
+            
+              <img class="post-feature-image" src="https://shanzhabusuan.github.io/post-images/ji-yi-ci-ying-ji-xiang-ying.webp" alt="">
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>##2024.09.05</p>
+<pre><code>提要：
+</code></pre>
+<p>一台windows电脑出现被远控，使用电脑向OA系统及微信好友传播木马远控文件。在确认现场信息后，即对该终端进行分析，了解该事件的情况。</p>
+<pre><code>一、Windows日志分析：                    
+</code></pre>
+<p>通过对Windows安全日志进行分析，未发现ID为4625的登录失败日志，未发现存在ID为4624 登录类型为10的安全日志，可以排查该设备是由于暴力RDP用户名和密码，从而远程登录设备导致的安全事件。</p>
+<pre><code>二、系统进程分析：
+</code></pre>
+<p>对Windows系统的网络连接进行分析，通过netstat -ano命令对系统网络连接情况进行分析，发现存在60251端口反向连接47.76.225.189的5555端口：<br>
+<img src="https://shanzhabusuan.github.io/post-images/1744942552612.png" alt="" loading="lazy"></p>
+<p>通过netstat | finstr 60251 对端口进行查找，发现该端口对应的系统进程explorer.exe：<br>
+<img src="https://shanzhabusuan.github.io/post-images/1744942664128.png" alt="" loading="lazy"></p>
+<p>通过进程分析工具查看系统进程explorer.exe，发现该进程下存在名为OneDrive的可疑进程：<br>
+<img src="https://shanzhabusuan.github.io/post-images/1744942710380.png" alt="" loading="lazy"></p>
+<p>通过进程确认到该程序的存放路径为：C:\Users\think\AppData\Local存在隐藏文件夹OneDrive，并在该文件夹下存在多个隐藏文件，如图所示：<br>
+<img src="https://shanzhabusuan.github.io/post-images/1744942741751.png" alt="" loading="lazy"></p>
+<p>OneDrive为Windows云存储程序，通过对C:\Users\think\AppData\Local\OneDrive中的OneDrive的属性进行查看，发现该程序名称和签名存在问题，可以判定该程序为异常程序。<br>
+<img src="https://shanzhabusuan.github.io/post-images/1744942797211.png" alt="" loading="lazy"></p>
+<pre><code>三、异常程序分析
+</code></pre>
+<p>1.会生成6008.exe、explorer.exe等程序，6008.exe会生成图片bb.jpg，explorer.exe程序会连接IP：47.76.255.189。结合上述分析，该终端在C:\Users\think\AppData\Local\OneDrive\cache路径下会生成bb.jpg、OneDrive等程序，同时也外联47.76.255.189的5555端口，可以判定该异常文件为银狐病毒的伪造文件，目的是传播银狐病毒，扩大肉鸡数量。<br>
+<img src="https://shanzhabusuan.github.io/post-images/1744942979887.png" alt="" loading="lazy"></p>
+<p>2.通过沙箱得知explorer.exe程序会连接6008.baidu.787.com，该地址为银狐远控地址，IP：47.76.255.18也同样为银狐的远控地址：<br>
+<img src="https://shanzhabusuan.github.io/post-images/1744943144030.png" alt="" loading="lazy"></p>
+<pre><code>四、文件分析
+</code></pre>
+<p>通过对OneOrive.exe详细属性查询，发现OneOrive.exe最初创建时间可以追溯到2024年8月8日。通过对异常文件9月份.7z中的程序进行分析，发现异常程序的运行时间即属性中的创建时间，该时间信息不会被修改。<br>
+<img src="https://shanzhabusuan.github.io/post-images/1744943226622.png" alt="" loading="lazy"></p>
+<p>对其他文件进行分析，发现存在8月8号.lnk的快捷方式文件，改文件的存储路径为微信，原始文件已删除，同时也伴随着bb.jpg的文件生成。可以判定8月8号文件为原始病毒，该终端于2024/8/8感染病毒，方式是通过微信文件传染，于2024年9月4日被远控，导致事件发生。<br>
+<img src="https://shanzhabusuan.github.io/post-images/1744943260696.png" alt="" loading="lazy"></p>
+<pre><code>五、事件处理
+</code></pre>
+<p>首先进行网络隔离，断开网线，避免受影响范围扩大，其次对受害终端进行病毒查杀，结束该病毒的相关进程，清理C:\Users\think\AppData\Local\OneDrive\cache路径下的相关文件，然后重启电脑，完成病毒清理工作。并对病毒样本进行取证留存，用于事件复盘，总结事件经验，避免后续再次发生。</p>
+
+              </div>
+              <div class="toc-container">
+                
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://shanzhabusuan.github.io/post/ji-yi-ci-bo-ke-da-jian-de-guo-cheng/">
+              <h3 class="post-title">
+                记一次博客搭建的过程
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  <a href="https://shanzhabusuan.github.io/post/about" target="_blank">山楂不酸|做自己感兴趣的事</a>
+  <a class="rss" href="https://shanzhabusuan.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>
